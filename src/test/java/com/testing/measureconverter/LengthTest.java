@@ -1,5 +1,6 @@
-package com.testing.measureconverter.Measures;
+package com.testing.measureconverter;
 
+import com.testing.measureconverter.Measures.Length;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

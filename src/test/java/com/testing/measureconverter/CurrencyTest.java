@@ -1,4 +1,5 @@
-package com.testing.measureconverter.Measures;
+package com.testing.measureconverter;
+import com.testing.measureconverter.Measures.Currency;
 import org.junit.jupiter.api.BeforeEach;
 
 
