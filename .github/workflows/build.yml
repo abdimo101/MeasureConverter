@@ -31,7 +31,7 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Initialize Mysql Database
-        run: sudo /etc/init.d/mysql start mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} converter < src/main/resources/init_database.sql
+      - name: Create Test Mysql Database
+        run: sudo /etc/init.d/mysql start mysql -u root -p root < src/main/resources/init_database.sql
       - name: Build and Test with Maven
         run: mvn -B clean test
