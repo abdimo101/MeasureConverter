@@ -1,37 +1,26 @@
-name: Build
+name: Test DB Connection
 
 on:
   push:
     branches:
       - main
 
-
 jobs:
-  build:
-    name: Build
+  test-db-connection:
+    name: Test Database Connection
     runs-on: ubuntu-latest
     permissions: read-all
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
+      - name: Execute SSH Commands
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          java-version: 17
-      - name: Cache Maven dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Create Test Mysql Database
-        run: sudo /etc/init.d/mysql start mysql -h 127.0.0.1 -u root -p${{ secrets.DB_PASSWORD }} < src/main/resources/init_database.sql
-      - name: Build and Test with Maven
-        run: mvn -B clean test
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            # Test the database connection by running a query
+            mysql -h127.0.0.1 -uroot -p${{ secrets.DB_PASSWORD }} -P3307 -e "SELECT * FROM converter.grades;"
+
